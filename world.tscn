@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bf16iuowm26tx"]
-
-[ext_resource type="PackedScene" uid="uid://bdu2rsfs5g4xw" path="res://player.tscn" id="1_qto0m"]
-
-[node name="World" type="Node2D"]
-
-[node name="Player" parent="." instance=ExtResource("1_qto0m")]
-max_angular_speed = 24

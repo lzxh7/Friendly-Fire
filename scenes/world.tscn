@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://bf16iuowm26tx"]
+
+[ext_resource type="PackedScene" uid="uid://bdu2rsfs5g4xw" path="res://scenes/player.tscn" id="1_qto0m"]
+[ext_resource type="PackedScene" uid="uid://cafn6nuu6x0ec" path="res://scenes/enemy.tscn" id="2_7sok7"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="3_td63y"]
+[ext_resource type="Script" path="res://enemy_spawn.gd" id="4_aif2w"]
+[ext_resource type="PackedScene" uid="uid://b2pgsv2a637w5" path="res://big_enemy.tscn" id="5_xsnid"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ri7fk"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_thlv2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_g22ll"]
+distance = -1152.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sn4u8"]
+distance = -648.0
+
+[sub_resource type="Curve2D" id="Curve2D_i0fa2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -78, -78, 0, 0, 0, 0, 1230, -81, 0, 0, 0, 0, 1232, 736, 0, 0, 0, 0, -77, 735, 0, 0, 0, 0, -79, -76)
+}
+point_count = 5
+
+[sub_resource type="Resource" id="Resource_25ely"]
+script = ExtResource("4_aif2w")
+scene = ExtResource("2_7sok7")
+min_pack = 4
+max_pack = 6
+wave = 1
+
+[sub_resource type="Resource" id="Resource_hecbj"]
+script = ExtResource("4_aif2w")
+scene = ExtResource("5_xsnid")
+min_pack = 2
+max_pack = 3
+wave = 3
+
+[node name="World" type="Node2D" groups=["world"]]
+
+[node name="Player" parent="." instance=ExtResource("1_qto0m")]
+position = Vector2(472, 248)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_ri7fk")
+one_way_collision = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+rotation = -4.71239
+shape = SubResource("WorldBoundaryShape2D_thlv2")
+one_way_collision = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_g22ll")
+one_way_collision = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("WorldBoundaryShape2D_sn4u8")
+one_way_collision = true
+
+[node name="EnemySpawner" type="Path2D" parent="."]
+curve = SubResource("Curve2D_i0fa2")
+script = ExtResource("3_td63y")
+enemy_spawns = Array[ExtResource("4_aif2w")]([SubResource("Resource_25ely"), SubResource("Resource_hecbj")])
+spawn_delay = 1.0
+
+[node name="PathFollow2D" type="PathFollow2D" parent="EnemySpawner"]
+position = Vector2(771.005, -79.9473)
+rotation = -0.00229357
+progress = 849.005
