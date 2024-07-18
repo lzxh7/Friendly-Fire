@@ -8,12 +8,11 @@
 script = ExtResource("1_atx72")
 
 [node name="UI" parent="." instance=ExtResource("2_mfo5v")]
-z_index = 2
 
 [node name="World" parent="." instance=ExtResource("1_2351l")]
 
-[node name="PathFollow2D" parent="World/EnemySpawner" index="0"]
-position = Vector2(771.005, -79.9473)
+[node name="PathFollow2D" parent="World/Camera2D/EnemySpawner" index="0"]
+position = Vector2(218.973, -373.523)
 
 [connection signal="pressed" from="UI/GameOver/VBoxContainer/Button" to="." method="new_game"]
 [connection signal="game_over" from="World/Player" to="UI/GameOver" method="show"]

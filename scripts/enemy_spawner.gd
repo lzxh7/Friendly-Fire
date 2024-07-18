@@ -14,7 +14,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	global_position = get_parent().get_screen_center_position()
 
 func spawn_loop() -> void:
 	while true:
@@ -46,6 +46,6 @@ func spawn_raw(scene: PackedScene, number: int) -> void:
 		$PathFollow2D.progress_ratio = start + float(pos) / number
 		var enemy := scene.instantiate()
 		$PathFollow2D.add_child(enemy)
-		enemy.reparent(get_parent())
+		enemy.reparent(owner)
 		enemy.tree_exited.connect(func(): active_enemies -= 1)
 		active_enemies += 1

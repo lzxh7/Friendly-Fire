@@ -1,24 +1,27 @@
-[gd_scene load_steps=13 format=3 uid="uid://bf16iuowm26tx"]
+[gd_scene load_steps=14 format=3 uid="uid://bf16iuowm26tx"]
 
 [ext_resource type="PackedScene" uid="uid://bdu2rsfs5g4xw" path="res://scenes/player.tscn" id="1_qto0m"]
 [ext_resource type="PackedScene" uid="uid://cafn6nuu6x0ec" path="res://scenes/enemy.tscn" id="2_7sok7"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="3_td63y"]
 [ext_resource type="Script" path="res://enemy_spawn.gd" id="4_aif2w"]
 [ext_resource type="PackedScene" uid="uid://b2pgsv2a637w5" path="res://big_enemy.tscn" id="5_xsnid"]
+[ext_resource type="Script" path="res://scripts/world_boundries.gd" id="6_jku0c"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ri7fk"]
+distance = -1494.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_thlv2"]
+distance = -1051.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_g22ll"]
-distance = -1152.0
+distance = -1051.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sn4u8"]
-distance = -648.0
+distance = -1494.0
 
 [sub_resource type="Curve2D" id="Curve2D_i0fa2"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -78, -78, 0, 0, 0, 0, 1230, -81, 0, 0, 0, 0, 1232, 736, 0, 0, 0, 0, -77, 735, 0, 0, 0, 0, -79, -76)
+"points": PackedVector2Array(0, 0, 0, 0, -672, -427, 0, 0, 0, 0, 698, -431, 0, 0, 0, 0, 704, 439, 0, 0, 0, 0, -675, 436, 0, 0, 0, 0, -673, -428)
 }
 point_count = 5
 
@@ -39,7 +42,11 @@ wave = 3
 [node name="World" type="Node2D" groups=["world"]]
 
 [node name="Player" parent="." instance=ExtResource("1_qto0m")]
-position = Vector2(472, 248)
+
+[node name="PlayerTransformNoRotate" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../../Camera2D")
+update_rotation = false
+update_scale = false
 
 [node name="Walls" type="StaticBody2D" parent="."]
 
@@ -62,13 +69,25 @@ one_way_collision = true
 shape = SubResource("WorldBoundaryShape2D_sn4u8")
 one_way_collision = true
 
-[node name="EnemySpawner" type="Path2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -1494
+limit_top = -1051
+limit_right = 1494
+limit_bottom = 1051
+position_smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="EnemySpawner" type="Path2D" parent="Camera2D"]
 curve = SubResource("Curve2D_i0fa2")
 script = ExtResource("3_td63y")
 enemy_spawns = Array[ExtResource("4_aif2w")]([SubResource("Resource_25ely"), SubResource("Resource_hecbj")])
 spawn_delay = 1.0
 
-[node name="PathFollow2D" type="PathFollow2D" parent="EnemySpawner"]
-position = Vector2(771.005, -79.9473)
-rotation = -0.00229357
+[node name="PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemySpawner"]
+position = Vector2(177.001, -429.479)
+rotation = -0.0029197
 progress = 849.005
+
+[node name="WorldBoundries" type="Marker2D" parent="."]
+position = Vector2(1494, -1051)
+script = ExtResource("6_jku0c")

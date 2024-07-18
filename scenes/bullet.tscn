@@ -13,7 +13,6 @@ safe_margin = 0.001
 script = ExtResource("1_slde6")
 speed = 400.0
 emitter_layer = 2
-bullets_destroy_bullets = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -6.0
