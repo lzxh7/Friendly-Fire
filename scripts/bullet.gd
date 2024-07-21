@@ -7,6 +7,10 @@ const MAX_BOUNCES := 12
 @export_flags_2d_physics var emitter_layer
 
 @export var bullets_destroy_bullets := false
+@export var damage := 1
+
+@export var mass := 1.0
+
 
 func _ready() -> void:
 	$Area2D.collision_mask = emitter_layer
@@ -30,8 +34,9 @@ func _move_and_bounce(distance: Vector2, depth:=0) -> void:
 		# shot we don't give it collision with the emitter until its first bounce.
 		collision_mask |= emitter_layer
 		
-		if "velocity" in collider and "mass" in collider:
-			collider.velocity += velocity / collider.mass
+		if "velocity" in collider and "mass" in collider and not collider is Bullet:
+			if collider.can_be_hit():
+				collider.velocity += velocity * mass / collider.mass
 		
 		velocity = velocity.bounce(collision.get_normal())
 		var remainder := collision.get_remainder()

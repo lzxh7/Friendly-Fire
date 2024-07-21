@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://dqy2tc5oy4r7s"]
+
+[ext_resource type="Texture2D" uid="uid://clemykeu7tqyg" path="res://health_pack.png" id="1_57f3o"]
+[ext_resource type="Script" path="res://scripts/health_pack.gd" id="1_74pbf"]
+[ext_resource type="AudioStream" uid="uid://cq3aeaimhwj1f" path="res://heal.wav" id="3_daj1o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5f7uw"]
+size = Vector2(36, 36)
+
+[sub_resource type="Animation" id="Animation_m8plu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_60uj2"]
+resource_name = "despawn"
+length = 2.0
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true, false, true, false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d53by"]
+_data = {
+"RESET": SubResource("Animation_m8plu"),
+"despawn": SubResource("Animation_60uj2")
+}
+
+[node name="HealthPack" type="Area2D"]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_74pbf")
+amount = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -2
+scale = Vector2(4, 4)
+texture = ExtResource("1_57f3o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5f7uw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_d53by")
+}
+
+[node name="Heal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_daj1o")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="AnimationPlayer" method="play" binds= [&"despawn"]]
+[connection signal="finished" from="Heal" to="Heal" method="queue_free"]

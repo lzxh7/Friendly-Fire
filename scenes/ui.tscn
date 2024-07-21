@@ -1,0 +1,288 @@
+[gd_scene load_steps=18 format=3 uid="uid://drwdo2tjlmoqg"]
+
+[ext_resource type="StyleBox" uid="uid://cb04yymvsbyj0" path="res://style_box.tres" id="1_675br"]
+[ext_resource type="Script" path="res://scripts/health_label.gd" id="1_hf42r"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="1_mn2vj"]
+[ext_resource type="Script" path="res://scripts/score_label.gd" id="2_02j1j"]
+[ext_resource type="Script" path="res://scripts/new_game_button.gd" id="5_qnee0"]
+[ext_resource type="Script" path="res://scripts/screen_change_button.gd" id="5_y5xqp"]
+[ext_resource type="PackedScene" uid="uid://tqeostwar7ki" path="res://scenes/bullet.tscn" id="6_dre0b"]
+[ext_resource type="Script" path="res://scripts/volume_slider.gd" id="6_dw6ah"]
+[ext_resource type="Script" path="res://scripts/grab_focus.gd" id="6_q4nmb"]
+[ext_resource type="Script" path="res://scripts/game_speed_slider.gd" id="7_254ub"]
+[ext_resource type="PackedScene" uid="uid://l4peb7pder1o" path="res://scenes/multishot_bullet.tscn" id="8_wmrra"]
+[ext_resource type="PackedScene" uid="uid://3yfq4oh5tn3y" path="res://scenes/big_bullet.tscn" id="9_p7gdc"]
+[ext_resource type="PackedScene" uid="uid://ixyk5kasfaa5" path="res://scenes/autofire_bullet.tscn" id="10_v33hq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oq5r2"]
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_83gqx"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_ff50u"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_v46l4"]
+font_size = 24
+
+[node name="UI" type="CanvasLayer" groups=["ui"]]
+script = ExtResource("1_mn2vj")
+
+[node name="InGameHUD" type="PanelContainer" parent="."]
+visible = false
+texture_filter = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -428.0
+offset_bottom = 110.0
+grow_horizontal = 0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("1_675br")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InGameHUD"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="InGameHUD/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Health: "
+script = ExtResource("1_hf42r")
+label_text = "Health: %d/%d"
+
+[node name="Label2" type="Label" parent="InGameHUD/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Health: "
+script = ExtResource("2_02j1j")
+label_text = "Score: %d"
+
+[node name="Screens" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="GameOver" type="PanelContainer" parent="Screens"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 235.0
+offset_top = 100.0
+offset_right = -235.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Screens/GameOver"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Game Over"
+label_settings = SubResource("LabelSettings_oq5r2")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Screens/GameOver"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="Screens/GameOver/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Choose a power up?"
+label_settings = SubResource("LabelSettings_83gqx")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Screens/GameOver/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 28
+text = "None (best: %d)"
+script = ExtResource("5_qnee0")
+bullet_scene = ExtResource("6_dre0b")
+screen = &"InGame"
+
+[node name="GrabFocus" type="Node" parent="Screens/GameOver/VBoxContainer/Button"]
+script = ExtResource("6_q4nmb")
+
+[node name="Button2" type="Button" parent="Screens/GameOver/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 28
+text = "Shotgun (best: %d)"
+script = ExtResource("5_qnee0")
+bullet_scene = ExtResource("8_wmrra")
+screen = &"InGame"
+
+[node name="Button3" type="Button" parent="Screens/GameOver/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 28
+text = "Big Bullets (best: %d)"
+script = ExtResource("5_qnee0")
+bullet_scene = ExtResource("9_p7gdc")
+screen = &"InGame"
+
+[node name="Button4" type="Button" parent="Screens/GameOver/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 28
+text = "Autofire (best: %d)"
+script = ExtResource("5_qnee0")
+bullet_scene = ExtResource("10_v33hq")
+screen = &"InGame"
+
+[node name="HSeparator" type="HSeparator" parent="Screens/GameOver/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Button" type="Button" parent="Screens/GameOver"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "<<<"
+script = ExtResource("5_y5xqp")
+screen = &"MainMenu"
+
+[node name="MainMenu" type="Control" parent="Screens"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Screens/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -218.0
+offset_top = 130.0
+offset_right = 218.0
+offset_bottom = 209.0
+grow_horizontal = 2
+text = "Friendly Fire"
+label_settings = SubResource("LabelSettings_ff50u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Screens/MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -28.0
+offset_right = 52.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="Screens/MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+script = ExtResource("5_y5xqp")
+screen = &"InGame"
+
+[node name="GrabFocus" type="Node" parent="Screens/MainMenu/VBoxContainer/Start"]
+script = ExtResource("6_q4nmb")
+
+[node name="Settings" type="Button" parent="Screens/MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("5_y5xqp")
+screen = &"Settings"
+
+[node name="Settings" type="Control" parent="Screens"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Screens/Settings"]
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "<<<"
+script = ExtResource("5_y5xqp")
+screen = &"MainMenu"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Screens/Settings"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 11
+
+[node name="Label" type="Label" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Music Volume (100%)"
+label_settings = SubResource("LabelSettings_v46l4")
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+step = 5.0
+value = 100.0
+script = ExtResource("6_dw6ah")
+bus = &"Music"
+text = "Music Volume (%d%%)"
+label = NodePath("../Label")
+
+[node name="GrabFocus" type="Node" parent="Screens/Settings/VBoxContainer/HSlider"]
+script = ExtResource("6_q4nmb")
+
+[node name="Label2" type="Label" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+text = "SFX Volume (100%)"
+label_settings = SubResource("LabelSettings_v46l4")
+horizontal_alignment = 1
+
+[node name="HSlider2" type="HSlider" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+step = 5.0
+value = 100.0
+script = ExtResource("6_dw6ah")
+bus = &"SFX"
+text = "SFX Volume (%d%%)"
+
+[node name="Label3" type="Label" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+text = "Game Speed (Accessibility) (100%)"
+label_settings = SubResource("LabelSettings_v46l4")
+horizontal_alignment = 1
+
+[node name="HSlider3" type="HSlider" parent="Screens/Settings/VBoxContainer"]
+layout_mode = 2
+min_value = 25.0
+step = 5.0
+value = 100.0
+script = ExtResource("7_254ub")
+text = "Game Speed (Accessibility) (%d%%)"
+label = NodePath("../Label3")
+
+[connection signal="screen_changed" from="." to="." method="_on_screen_changed"]

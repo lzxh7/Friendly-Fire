@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://gdlxy00qlhl6"]
+
+[ext_resource type="FontFile" uid="uid://bs2jl7qdlklsp" path="res://addons/Pixeloid/PixeloidSans-JR6qo.ttf" id="1_825oj"]
+[ext_resource type="StyleBox" uid="uid://cb04yymvsbyj0" path="res://style_box.tres" id="2_fpr7d"]
+[ext_resource type="StyleBox" uid="uid://b6pj0e0gkdqp" path="res://style_box_focused.tres" id="3_2wtxg"]
+
+[resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_825oj")
+Button/styles/disabled = ExtResource("2_fpr7d")
+Button/styles/focus = ExtResource("3_2wtxg")
+Button/styles/hover = ExtResource("2_fpr7d")
+Button/styles/normal = ExtResource("2_fpr7d")
+Button/styles/pressed = ExtResource("2_fpr7d")

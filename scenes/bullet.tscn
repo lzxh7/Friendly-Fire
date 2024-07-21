@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_slde6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqill"]
-size = Vector2(12, 4)
+size = Vector2(24, 10)
 
 [node name="Bullet" type="CharacterBody2D"]
 collision_layer = 4

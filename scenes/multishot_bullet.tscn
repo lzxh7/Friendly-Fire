@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://l4peb7pder1o"]
+
+[ext_resource type="PackedScene" uid="uid://tqeostwar7ki" path="res://scenes/bullet.tscn" id="1_0coss"]
+[ext_resource type="Script" path="res://scripts/multishot_bullet.gd" id="2_dir4k"]
+
+[node name="MultishotBullet" instance=ExtResource("1_0coss")]
+collision_mask = 9
+script = ExtResource("2_dir4k")
+spread = 1.047
+number = 5
+emitter_layer = 6

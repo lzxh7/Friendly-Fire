@@ -1,23 +1,24 @@
-[gd_scene load_steps=14 format=3 uid="uid://bf16iuowm26tx"]
+[gd_scene load_steps=17 format=3 uid="uid://bf16iuowm26tx"]
 
 [ext_resource type="PackedScene" uid="uid://bdu2rsfs5g4xw" path="res://scenes/player.tscn" id="1_qto0m"]
 [ext_resource type="PackedScene" uid="uid://cafn6nuu6x0ec" path="res://scenes/enemy.tscn" id="2_7sok7"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="3_td63y"]
-[ext_resource type="Script" path="res://enemy_spawn.gd" id="4_aif2w"]
-[ext_resource type="PackedScene" uid="uid://b2pgsv2a637w5" path="res://big_enemy.tscn" id="5_xsnid"]
+[ext_resource type="Script" path="res://scripts/enemy_spawn.gd" id="4_d4dfa"]
+[ext_resource type="PackedScene" uid="uid://b2pgsv2a637w5" path="res://scenes/big_enemy.tscn" id="5_l33uk"]
 [ext_resource type="Script" path="res://scripts/world_boundries.gd" id="6_jku0c"]
+[ext_resource type="Texture2D" uid="uid://dan26wwilqyaw" path="res://tile.png" id="7_advuv"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ri7fk"]
-distance = -1494.0
+distance = -1051.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_thlv2"]
-distance = -1051.0
+distance = -1494.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_g22ll"]
-distance = -1051.0
+distance = -1494.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sn4u8"]
-distance = -1494.0
+distance = -1051.0
 
 [sub_resource type="Curve2D" id="Curve2D_i0fa2"]
 _data = {
@@ -26,18 +27,31 @@ _data = {
 point_count = 5
 
 [sub_resource type="Resource" id="Resource_25ely"]
-script = ExtResource("4_aif2w")
+script = ExtResource("4_d4dfa")
 scene = ExtResource("2_7sok7")
 min_pack = 4
 max_pack = 6
 wave = 1
 
 [sub_resource type="Resource" id="Resource_hecbj"]
-script = ExtResource("4_aif2w")
-scene = ExtResource("5_xsnid")
+script = ExtResource("4_d4dfa")
+scene = ExtResource("5_l33uk")
 min_pack = 2
 max_pack = 3
 wave = 3
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p0laa"]
+texture = ExtResource("7_advuv")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_eh80y"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_p0laa")
 
 [node name="World" type="Node2D" groups=["world"]]
 
@@ -80,8 +94,8 @@ editor_draw_limits = true
 [node name="EnemySpawner" type="Path2D" parent="Camera2D"]
 curve = SubResource("Curve2D_i0fa2")
 script = ExtResource("3_td63y")
-enemy_spawns = Array[ExtResource("4_aif2w")]([SubResource("Resource_25ely"), SubResource("Resource_hecbj")])
-spawn_delay = 1.0
+enemy_spawns = Array[ExtResource("4_d4dfa")]([SubResource("Resource_25ely"), SubResource("Resource_hecbj")])
+spawn_delay = 2.5
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemySpawner"]
 position = Vector2(177.001, -429.479)
@@ -91,3 +105,10 @@ progress = 849.005
 [node name="WorldBoundries" type="Marker2D" parent="."]
 position = Vector2(1494, -1051)
 script = ExtResource("6_jku0c")
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+scale = Vector2(4, 4)
+tile_set = SubResource("TileSet_eh80y")
+format = 2
+layer_0/tile_data = PackedInt32Array(-393226, 1, 0, -393225, 1, 0, -131081, 1, 0, -65545, 1, 0, -9, 1, 0, 327670, 1, 0, 131065, 1, 0, 131066, 1, 0, -5, 1, 0, -196614, 1, 0, -196613, 1, 0, -196612, 1, 0, -327685, 1, 0, -458752, 1, 0, -458751, 1, 0, -327677, 1, 0, -262141, 1, 0, 262140, 1, 0, 196604, 1, 0, 196605, 1, 0, 262141, 1, 0, 393210, 1, 0, 393211, 1, 0, 262144, 1, 0, 327680, 1, 0, 393216, 1, 0, -65533, 1, 0, 65538, 1, 0, 131074, 1, 0, 131080, 1, 0, 196616, 1, 0, -131065, 1, 0, -196601, 1, 0, -131064, 1, 0, -196600, 1, 0, 393222, 1, 0, 262148, 1, 0, 262149, 1, 0, 393226, 1, 0, -458745, 1, 0, -458744, 1, 0, -458743, 1, 0, -393211, 1, 0)
